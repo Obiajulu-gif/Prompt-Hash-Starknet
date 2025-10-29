@@ -4,29 +4,29 @@
 
 ## PromptHash
 
-PromptHash is a dynamic, AI-powered marketplace connecting prompt creators with users seeking inspiration, productivity, and cutting-edge solutions. Leveraging the high-throughput, low-latency Hedera Hashgraph network for core marketplace operations and privacy-focused tooling for AI integration, our platform enables users to explore, create, buy, and sell high-quality AI prompts across various categories.
+PromptHash is a dynamic, AI-powered marketplace connecting prompt creators with users seeking inspiration, productivity, and cutting-edge solutions. Leveraging the high-performance, low-cost Starknet network for core marketplace operations and privacy-focused tooling for AI integration, our platform enables users to explore, create, buy, and sell high-quality AI prompts across various categories.
 
 ---
 
 ## 🚀 Vision
 
-Our vision is to become the go-to resource where creators and users converge—leveraging advanced AI models, enterprise-grade Hedera Hashgraph infrastructure, and intuitive design—to spark transformative ideas across industries.
+Our vision is to become the go-to resource where creators and users converge—leveraging advanced AI models, enterprise-grade Starknet infrastructure, and intuitive design—to spark transformative ideas across industries.
 
 ---
 
 ## 🔑 Key Features
 
-* **🔍 Browse & Discover**: Explore curated collections of AI prompts from top creators.
-* **💰 Buy & Sell Prompts**: Monetize your expertise or find the perfect prompt, with all transactions settled via HBAR on Hedera.
-* **🤖 Advanced AI Integration**: Powered by cutting-edge AI models (e.g., DeepSeek R1, Llama 3.2 Vision) through our privacy-preserving AI gateway.
-* **🔗 Hedera Smart Contracts**: On-chain prompt registry and payment escrow flows executed on Hedera using Solidity-compatible smart contracts.
-* **🔒 Blockchain Security**: Built on Hedera’s asynchronous Byzantine Fault Tolerance (aBFT) infrastructure for enterprise-grade safety.
-* **💬 Conversational AI**: Maintain context-aware chat sessions to refine or generate prompts in real time.
-* **🏛️ Governance**: Community-driven platform development and on-chain governance proposals via Hedera governance service.
-* **✨ Prompt Engineering Tools**: Interactive utilities to analyze, optimize, and refactor AI prompts.
-* **👨‍💻 Creator Profiles**: Dedicated spaces for top prompt creators, with on-chain reputation badges.
-* **🖼️ Multi-Format Support**: Generate images, text, and code with ease.
-* **📚 Comprehensive Documentation**: Detailed API documentation available via Swagger UI and ReDoc.
+- **🔍 Browse & Discover**: Explore curated collections of AI prompts from top creators.
+- **💰 Buy & Sell Prompts**: Monetize your expertise or find the perfect prompt, with all transactions settled via ETH on Starknet.
+- **🤖 Advanced AI Integration**: Powered by cutting-edge AI models (e.g., DeepSeek R1, Llama 3.2 Vision) through our privacy-preserving AI gateway.
+- **🔗 Starknet Smart Contracts**: On-chain prompt registry and payment escrow flows executed on Starknet using Cairo smart contracts.
+- **🔒 Blockchain Security**: Built on Starknet's STARK-based validity proofs infrastructure for enterprise-grade safety and scalability.
+- **💬 Conversational AI**: Maintain context-aware chat sessions to refine or generate prompts in real time.
+- **🏛️ Governance**: Community-driven platform development and on-chain governance proposals via Cairo governance contracts.
+- **✨ Prompt Engineering Tools**: Interactive utilities to analyze, optimize, and refactor AI prompts.
+- **👨‍💻 Creator Profiles**: Dedicated spaces for top prompt creators, with on-chain reputation badges.
+- **🖼️ Multi-Format Support**: Generate images, text, and code with ease.
+- **📚 Comprehensive Documentation**: Detailed API documentation available via Swagger UI and ReDoc.
 
 ---
 
@@ -56,173 +56,251 @@ Easy integration with your applications via our RESTful and GraphQL API endpoint
 
 ## 🛠️ Categories
 
-* **📸 Image Prompts:** For visual content generation.
-* **📝 Text & Writing:** Creative writing, copywriting, and content creation.
-* **📊 Marketing Copy:** Advertising, emails, and conversion-focused content.
-* **💡 Creative Ideas:** Brainstorming and concept development.
-* **🚀 Productivity Boosters:** Efficiency and workflow optimization.
-* **💻 Code Generation:** Programming assistance and development.
+- **📸 Image Prompts:** For visual content generation.
+- **📝 Text & Writing:** Creative writing, copywriting, and content creation.
+- **📊 Marketing Copy:** Advertising, emails, and conversion-focused content.
+- **💡 Creative Ideas:** Brainstorming and concept development.
+- **🚀 Productivity Boosters:** Efficiency and workflow optimization.
+- **💻 Code Generation:** Programming assistance and development.
 
 ---
 
 ## 🏗️ Tech Stack
 
-* **Frontend:** Next.js, React, Tailwind CSS
-* **Backend:** FastAPI for AI services; Node.js/Express for blockchain gateway
-* **AI Integration:** Private inference through Secret Network AI API
-* **Blockchain Integration:** Hedera Hashgraph via Hedera JavaScript SDK / hethers.js
-* **Smart Contracts:** Solidity (v0.8.17) deployed on Hedera Testnet/Mainnet
-* **Authentication:** Wallet Connect & Hedera DID for user login
-* **Server:** Uvicorn (ASGI) and Node.js processes managed with PM2
-* **Icons & UI:** Lucide for icon components
+- **Frontend:** Next.js, React, Tailwind CSS
+- **Backend:** FastAPI for AI services; Node.js/Express for blockchain gateway
+- **AI Integration:** Private inference through Secret Network AI API
+- **Blockchain Integration:** Starknet via starknet.js and Cairo
+- **Smart Contracts:** Cairo (v2.6.0) deployed on Starknet Sepolia/Mainnet
+- **Authentication:** Wallet Connect & ArgentX/Braavos for user login
+- **Server:** Uvicorn (ASGI) and Node.js processes managed with PM2
+- **Icons & UI:** Lucide for icon components
 
 ---
 
-## 🔗 Hedera Integration Details
+## 🔗 Starknet Integration Details
 
-To seamlessly integrate Hedera’s enterprise-grade services, PromptHash leverages four core Hedera offerings—JavaScript SDK client setup, the Smart Contract Service (HSCS), the Token Service (HTS), and the Consensus Service (HCS). Each component is provisioned and configured via environment variables, code snippets, and CLI workflows outlined below.
+To seamlessly integrate Starknet's scalable infrastructure, PromptHash leverages Cairo smart contracts, the Starknet JavaScript SDK, and STARK-based validity proofs. Each component is provisioned and configured via environment variables, code snippets, and CLI workflows outlined below.
 
 ### 1. Client & SDK Setup
 
 #### Prerequisites
 
-* Node.js v18+ and npm
-* Hedera Testnet Operator ID & Private Key
-* `.env` configured in project root:
+- Node.js v18+ and npm
+- Starknet Wallet (ArgentX or Braavos)
+- Starknet Account with ETH for gas fees
+- `.env` configured in project root:
 
   ```ini
-  OPERATOR_ACCOUNT_ID=0.0.xxxxx
-  OPERATOR_ACCOUNT_PRIVATE_KEY=302e020100300...
-  HEDERA_NETWORK=testnet
+  STARKNET_ACCOUNT_ADDRESS=0x123...
+  STARKNET_PRIVATE_KEY=0x456...
+  STARKNET_NETWORK=sepolia-alpha
+  STARKNET_RPC_URL=https://starknet-sepolia.public.blastapi.io
   ```
 
 #### Initialization (JavaScript)
 
 ```js
-import { Client } from "@hashgraph/sdk";
+import { Account, RpcProvider, stark } from "starknet";
 
 // Load from .env
-const operatorId = process.env.OPERATOR_ACCOUNT_ID;
-const operatorKey = process.env.OPERATOR_ACCOUNT_PRIVATE_KEY;
+const accountAddress = process.env.STARKNET_ACCOUNT_ADDRESS;
+const privateKey = process.env.STARKNET_PRIVATE_KEY;
 
-// Configure client for testnet
-const client = Client.forName(process.env.HEDERA_NETWORK);
-client.setOperator(operatorId, operatorKey);
+// Configure provider for Sepolia testnet
+const provider = new RpcProvider({ nodeUrl: process.env.STARKNET_RPC_URL });
+const account = new Account(provider, accountAddress, privateKey);
 
-export default client;
+export { provider, account };
 ```
 
-### 2. Smart Contract Service (HSCS)
+### 2. Cairo Smart Contracts
 
-#### Compilation & Packaging
+#### Installation & Setup
 
 ```bash
-# Install Solidity compiler
-npm install solc
+# Install Scarb (Cairo package manager)
+curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | sh
 
-# Compile contract
-solcjs contracts/PromptHash.sol --bin --abi --output-dir build
+# Install Starknet Foundry
+curl -L https://raw.githubusercontent.com/foundry-rs/starknet-foundry/master/scripts/install.sh | sh
 ```
 
-*Artifacts generated:*
+#### Project Structure
 
-* `build/PromptHash.bin` (bytecode)
-* `build/PromptHash.abi` (ABI)
+```bash
+mkdir cairo_contracts && cd cairo_contracts
+scarb init prompt_hash --name prompt_hash
+```
 
-#### Deployment (ethers.js)
+#### Compilation
+
+```bash
+# Compile Cairo contracts
+scarb build
+
+# Generate artifacts
+sncast declare --contract-name PromptHash
+```
+
+_Artifacts generated:_
+
+- `target/dev/prompt_hash_PromptHash.contract_class.json`
+- `target/dev/prompt_hash_PromptHash.compiled_contract_class.json`
+
+#### Deployment
 
 ```js
-import { JsonRpcProvider } from "@ethersproject/providers";
-import { Wallet, ContractFactory } from "@ethersproject/ethers";
+import { Account, Contract, json } from "starknet";
 import fs from "fs";
 
-const provider = new JsonRpcProvider(process.env.HEDERA_RPC_URL);
-const wallet = new Wallet(process.env.OPERATOR_ACCOUNT_PRIVATE_KEY, provider);
+const compiledContract = json.parse(
+	fs
+		.readFileSync(
+			"./target/dev/prompt_hash_PromptHash.compiled_contract_class.json"
+		)
+		.toString("ascii")
+);
 
-const bytecode = fs.readFileSync("build/PromptHash.bin");
-const abi = JSON.parse(fs.readFileSync("build/PromptHash.abi"));
-
-const factory = new ContractFactory(abi, bytecode, wallet);
 (async () => {
-  const contract = await factory.deploy();
-  await contract.deployed();
-  console.log("Contract Address:", contract.address);
+	// Declare contract
+	const declareResponse = await account.declare({ contract: compiledContract });
+	await provider.waitForTransaction(declareResponse.transaction_hash);
+
+	// Deploy contract
+	const deployResponse = await account.deployContract({
+		classHash: declareResponse.class_hash,
+	});
+	await provider.waitForTransaction(deployResponse.transaction_hash);
+
+	console.log("Contract Address:", deployResponse.contract_address);
 })();
 ```
 
-### 3. Tokenization with Hedera Token Service (HTS)
+### 3. Token Integration (ERC-20 on Starknet)
 
-#### Token Creation
+#### Token Deployment
 
-```js
-import { TokenCreateTransaction } from "@hashgraph/sdk";
+```cairo
+#[starknet::contract]
+mod PromptToken {
+    use openzeppelin::token::erc20::ERC20Component;
+    use starknet::ContractAddress;
 
-const transaction = new TokenCreateTransaction()
-  .setTokenName("PromptToken")
-  .setTokenSymbol("PRMPT")
-  .setDecimals(0)
-  .setInitialSupply(1000)
-  .setTreasuryAccountId(operatorId);
+    component!(path: ERC20Component, storage: erc20, event: ERC20Event);
 
-const response = await transaction.execute(client);
-const receipt = await response.getReceipt(client);
-console.log("HTS Token ID:", receipt.tokenId.toString());
+    #[abi(embed_v0)]
+    impl ERC20Impl = ERC20Component::ERC20Impl<ContractState>;
+
+    #[storage]
+    struct Storage {
+        #[substorage(v0)]
+        erc20: ERC20Component::Storage
+    }
+
+    #[event]
+    #[derive(Drop, starknet::Event)]
+    enum Event {
+        #[flat]
+        ERC20Event: ERC20Component::Event
+    }
+
+    #[constructor]
+    fn constructor(
+        ref self: ContractState,
+        name: felt252,
+        symbol: felt252,
+        initial_supply: u256,
+        recipient: ContractAddress
+    ) {
+        self.erc20.initializer(name, symbol);
+        self.erc20._mint(recipient, initial_supply);
+    }
+}
 ```
 
-#### Minting & Transfer
+#### Token Operations
 
 ```js
-import { TokenMintTransaction, TransferTransaction } from "@hashgraph/sdk";
+import { Contract, CallData } from "starknet";
 
-await new TokenMintTransaction()
-  .setTokenId(receipt.tokenId)
-  .setSupply(500)
-  .execute(client);
+const tokenContract = new Contract(tokenAbi, tokenAddress, provider);
 
-await new TransferTransaction()
-  .addTokenTransfer(receipt.tokenId, operatorId, "0.0.xxxxx")
-  .execute(client);
+// Mint tokens
+await account.execute([
+	{
+		contractAddress: tokenAddress,
+		entrypoint: "mint",
+		calldata: CallData.compile([recipientAddress, amount]),
+	},
+]);
+
+// Transfer tokens
+await account.execute([
+	{
+		contractAddress: tokenAddress,
+		entrypoint: "transfer",
+		calldata: CallData.compile([recipientAddress, amount]),
+	},
+]);
 ```
 
-### 4. Consensus Logging via Hedera Consensus Service (HCS)
+### 4. Event Logging & Indexing
 
-#### Topic Creation & Messaging
+#### Event Emission (Cairo)
 
-```js
-import { TopicCreateTransaction, TopicMessageSubmitTransaction } from "@hashgraph/sdk";
+```cairo
+#[event]
+#[derive(Drop, starknet::Event)]
+enum Event {
+    PromptPurchased: PromptPurchased,
+}
 
-// Create HCS topic
-const topicResponse = await new TopicCreateTransaction().execute(client);
-const topicId = (await topicResponse.getReceipt(client)).topicId;
+#[derive(Drop, starknet::Event)]
+struct PromptPurchased {
+    buyer: ContractAddress,
+    prompt_id: u256,
+    price: u256,
+}
 
-// Publish a message
-await new TopicMessageSubmitTransaction({ topicId })
-  .setMessage("User 0.0.12345 bought prompt #6789")
-  .execute(client);
+// Emit event
+self.emit(PromptPurchased {
+    buyer: get_caller_address(),
+    prompt_id: prompt_id,
+    price: price
+});
 ```
 
-#### Subscribing (Mirror Node)
+#### Event Listening (JavaScript)
 
 ```js
-import { MirrorClient } from "@hashgraph/sdk";
+import { Provider } from "starknet";
 
-const mirrorClient = new MirrorClient("https://testnet.mirrornode.hedera.com");
-mirrorClient.subscribe(
-  { topicId },
-  (message) => console.log("Received message:", message)
-);
+const provider = new Provider({ sequencer: { network: "sepolia-alpha" } });
+
+// Listen for events
+const eventFilter = {
+	from_block: { block_number: 0 },
+	to_block: "latest",
+	address: contractAddress,
+	keys: [["PromptPurchased"]],
+};
+
+const events = await provider.getEvents(eventFilter);
+console.log("Events:", events);
 ```
 
 ---
 
 ## 📋 Prerequisites
 
-* Node.js v18+ and npm
-* Python 3.12.0
-* Hedera Testnet Account (Operator ID & Private Key)
-* HBAR in your testnet wallet for gas and escrow
-* Secret AI API Key (for AI-powered features)
-* Web browser with wallet extension (supporting Hedera DID)
+- Node.js v18+ and npm
+- Python 3.12.0
+- Starknet Wallet (ArgentX or Braavos)
+- ETH on Starknet Sepolia for gas fees
+- Scarb (Cairo package manager)
+- Starknet Foundry
+- Secret AI API Key (for AI-powered features)
 
 ---
 
@@ -231,8 +309,8 @@ mirrorClient.subscribe(
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/OkeyAmy/PromptHash.git
-   cd PromptHash
+   git clone https://github.com/OkeyAmy/Prompt-Hash-Starknet.git
+   cd Prompt-Hash-Starknet
    ```
 
 2. **Backend Setup (Python)**
@@ -244,29 +322,38 @@ mirrorClient.subscribe(
    pip install -r requirements.txt
    ```
 
-3. **Blockchain Gateway & Frontend**
+3. **Cairo Contracts Setup**
 
    ```bash
-   cd hbara-gateway
+   cd cairo_contracts
+   scarb build
+   ```
+
+4. **Blockchain Gateway & Frontend**
+
+   ```bash
+   cd starknet-gateway
    npm install
    cd ../frontend
    npm install
    ```
 
-4. **Configure Environment Variables**
+5. **Configure Environment Variables**
    Create a `.env` file in project root with:
 
    ```ini
-   # Hedera
-   OPERATOR_ACCOUNT_ID=0.0.xxxxx
-   OPERATOR_ACCOUNT_PRIVATE_KEY=302e020100300...
-   HEDERA_NETWORK=testnet
+   # Starknet
+   STARKNET_ACCOUNT_ADDRESS=0x123...
+   STARKNET_PRIVATE_KEY=0x456...
+   STARKNET_NETWORK=sepolia-alpha
+   STARKNET_RPC_URL=https://starknet-sepolia.public.blastapi.io
 
    # AI
    SECRET_AI_API_KEY=your_secret_ai_key
 
    # Frontend
    NEXT_PUBLIC_API_URL=http://localhost:8000
+   NEXT_PUBLIC_STARKNET_CHAIN_ID=SN_SEPOLIA
    ```
 
 ---
@@ -279,10 +366,10 @@ mirrorClient.subscribe(
    uvicorn app.main:app --reload --port 8000
    ```
 
-2. **Start Blockchain Gateway**
+2. **Start Starknet Gateway**
 
    ```bash
-   cd hbara-gateway
+   cd starknet-gateway
    npm run dev
    ```
 
@@ -297,8 +384,8 @@ mirrorClient.subscribe(
 
 ## 📄 API Documentation
 
-* **Swagger UI:** `http://localhost:8000/docs`
-* **ReDoc:** `http://localhost:8000/redoc`
+- **Swagger UI:** `http://localhost:8000/docs`
+- **ReDoc:** `http://localhost:8000/redoc`
 
 ---
 
@@ -306,64 +393,67 @@ mirrorClient.subscribe(
 
 ### Models
 
-* `GET /api/models` – Retrieve available AI models.
+- `GET /api/models` – Retrieve available AI models.
 
 ### Chat
 
-* `GET /api/chat` – Chat with AI model.
+- `GET /api/chat` – Chat with AI model.
 
-  * **Parameters:** `prompt` (string), `model` (optional)
+  - **Parameters:** `prompt` (string), `model` (optional)
 
 ### Prompt Improvement
 
-* `POST /api/improve-prompt` – Analyze and improve a prompt.
+- `POST /api/improve-prompt` – Analyze and improve a prompt.
 
-  * **Body:** `{ "prompt": "..." }`
+  - **Body:** `{ "prompt": "..." }`
 
 ### Health Check
 
-* `GET /api/health` – Check API health status.
+- `GET /api/health` – Check API health status.
 
 ---
 
-## 🧑‍💻 Hedera Smart Contract Deployment
+## 🧑‍💻 Starknet Smart Contract Deployment
 
 ### Prerequisites
 
-* Hedera testnet account funded with HBAR
-* `OPERATOR_ACCOUNT_ID` & `OPERATOR_ACCOUNT_PRIVATE_KEY` set in `.env`
+- Starknet account with ETH for gas fees
+- `STARKNET_ACCOUNT_ADDRESS` & `STARKNET_PRIVATE_KEY` set in `.env`
+- Scarb and Starknet Foundry installed
 
 ### Compile Contract
 
 ```bash
-cd contracts
-solcjs PromptHash.sol --bin --abi --output-dir build
+cd cairo_contracts
+scarb build
 ```
 
-Generates `PromptHash.bin` and `PromptHash.abi` in `build/`
+Generates compiled contract class in `target/dev/`
 
-### Deploy Contract (deployScript.js)
+### Deploy Contract
 
 ```bash
-node deployScript.js
+# Declare the contract
+sncast declare --contract-name PromptHash --max-fee 0.01
+
+# Deploy with constructor arguments
+sncast deploy --class-hash <CLASS_HASH> --constructor-calldata 0x123 0x456
 ```
 
-* Logs deployment address and transaction fee.
+### Verify on Starkscan
 
-### Verify on HashScan
-
-1. Visit [https://hashscan.io/testnet](https://hashscan.io/testnet)
-2. Search contract address.
-3. Click “Verify Contract” and upload `PromptHash.sol`, `build/PromptHash_abi.json`, `build/PromptHash_metadata.json`.
+1. Visit [https://sepolia.starkscan.co](https://sepolia.starkscan.co)
+2. Search contract address
+3. Contract will be automatically verified if source is available
 
 ---
 
 ## 🗂️ Project Structure
 
 ```
-PromptHash/
-├── contracts/           # Solidity smart contracts
-├── hbara-gateway/       # Node.js blockchain gateway
+Prompt-Hash-Starknet/
+├── cairo_contracts/     # Cairo smart contracts
+├── starknet-gateway/    # Node.js Starknet gateway
 ├── frontend/            # Next.js/React application
 ├── app/                 # FastAPI AI services
 │   ├── config.py
@@ -379,14 +469,15 @@ PromptHash/
 
 ## 📦 Dependencies
 
-* **FastAPI**, **Pydantic**, **Uvicorn**
-* **Hedera JavaScript SDK**, **ethers.js**
-* **Secret AI SDK**
-* **Next.js**, **React**, **Tailwind CSS**, **Lucide**
+- **FastAPI**, **Pydantic**, **Uvicorn**
+- **starknet.js**, **get-starknet**
+- **Scarb**, **Starknet Foundry**
+- **Secret AI SDK**
+- **Next.js**, **React**, **Tailwind CSS**, **Lucide**
 
 ---
-🎥 **Watch Demo:** [PromptHash Consensus Service](https://drive.google.com/file/d/1IODf5eKn0l_lG1klQkRHc8Zapib4YzqM/view?usp=sharing)
----
+
+## 🎥 **Watch Demo:** [PromptHash on Starknet](https://drive.google.com/file/d/1IODf5eKn0l_lG1klQkRHc8Zapib4YzqM/view?usp=sharing)
 
 ## ❤️ Contributing
 
