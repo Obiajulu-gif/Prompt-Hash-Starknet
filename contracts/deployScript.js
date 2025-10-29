@@ -83,12 +83,12 @@ async function deployContract() {
     );
 
     const deploymentTxAddress = myContract.address;
-    const deploymentTxHashscanUrl = `https://hashscan.io/testnet/contract/${deploymentTxAddress}`;
+    const deploymentTxStarkscanUrl = `https://testnet.starkscan.co/contract/${deploymentTxAddress}`;
 
     console.log("Smart contract deployment address:", deploymentTxAddress);
     console.log(
-      "Smart contract deployment Hashscan URL:\n",
-      ("URL", deploymentTxHashscanUrl)
+      "Smart contract deployment Starkscan URL:\n",
+      ("URL", deploymentTxStarkscanUrl)
     );
   } catch (error) {
     console.error("Error initializing client:", error);
@@ -108,5 +108,5 @@ deployContract();
 // Compiled smart contract EVM bytecode: 60806040526001805534801561001457 …
 // Smart contract deployment transaction fee 0.1201851 ℏ
 // Smart contract deployment address: 0xaC3773297C26A6336453C09943f67A2F5023FcEB
-// Smart contract deployment Hashscan URL:
-//  https://hashscan.io/testnet/contract/0xaC3773297C26A6336453C09943f67A2F5023FcEB
+// Smart contract deployment Starkscan URL:
+//  https://testnet.starkscan.co/contract/0xaC3773297C26A6336453C09943f67A2F5023FcEB

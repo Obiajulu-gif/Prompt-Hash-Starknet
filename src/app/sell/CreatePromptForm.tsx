@@ -80,7 +80,7 @@ export function CreatePromptForm() {
     if (!formData.category) newErrors.category = "Category is required";
     if (!formData.price) newErrors.price = "Price is required";
     if (isNaN(Number(formData.price)) || Number(formData.price) < 2) {
-      newErrors.price = "Price must be at least 2 HBAR";
+      newErrors.price = "Price must be at least 2 STRK";
     }
 
     setErrors(newErrors);

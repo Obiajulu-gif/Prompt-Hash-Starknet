@@ -38,7 +38,7 @@ Browse a curated collection of AI prompts across categories like Coding, Marketi
 
 ### Sell & Share
 
-List and monetize your top AI prompts with instant HBAR settlements. Smart contract escrow ensures prompt delivery before funds release.
+List and monetize your top AI prompts with instant STRK settlements. Smart contract escrow ensures prompt delivery before funds release.
 
 ### Interactive Chat
 
@@ -50,7 +50,7 @@ Built with Next.js, React, and Tailwind CSS for a seamless, mobile-first experie
 
 ### API Integration
 
-Easy integration with your applications via our RESTful and GraphQL API endpoints, complete with Hedera transaction whitelisting.
+Easy integration with your applications via our RESTful and GraphQL API endpoints, complete with Starknet transaction whitelisting.
 
 ---
 
