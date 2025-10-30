@@ -229,11 +229,16 @@ pub mod PromptHash {
         }
 
         fn get_all_prompts(self: @ContractState) -> Array<Prompt> {
-            let prompts_count = self.token_id_counter.read();
-            let mut prompts_array: Array<Prompt> = ArrayTrait::new();
+            let prompts_counter = self.token_id_counter.read();
+            let mut prompts_array = array![];
 
-            for i in 0..prompts_count {
-                let prompt = self.prompts.entry(i + 1).read();
+            let mut init_num = 0;
+            if prompts_counter > 1 {
+                init_num = 1
+            }
+
+            for i in init_num..prompts_counter {
+                let prompt = self.prompts.entry(i).read();
                 prompts_array.append(prompt);
             }
 
