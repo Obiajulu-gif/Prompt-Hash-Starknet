@@ -5,46 +5,46 @@ const API_BASE_URL = "https://secret-ai-gateway.onrender.com";
 
 // Available models
 export type AIModel =
-	| "models/gemini-2.5-flash"
-	| "models/gemini-2.5-pro"
-	| "models/gemini-2.0-flash"
-	| "models/gemini-flash-latest"
-	| "models/gemini-pro-latest"
-	| "models/gemini-2.0-flash-exp";
+	| "gemini-2.5-flash"
+	| "gemini-2.5-pro"
+	| "gemini-2.0-flash"
+	| "gemini-flash-latest"
+	| "gemini-pro-latest"
+	| "gemini-2.0-flash-exp";
 
 // Model configuration
 export const MODEL_CONFIG = {
-	"models/gemini-2.5-flash": {
+	"gemini-2.5-flash": {
 		name: "Gemini 2.5 Flash",
 		description: "Fast and versatile multimodal model",
 		inputTokenLimit: 1048576,
 		outputTokenLimit: 65536,
 	},
-	"models/gemini-2.5-pro": {
+	"gemini-2.5-pro": {
 		name: "Gemini 2.5 Pro",
 		description: "Advanced reasoning and analysis capabilities",
 		inputTokenLimit: 1048576,
 		outputTokenLimit: 65536,
 	},
-	"models/gemini-2.0-flash": {
+	"gemini-2.0-flash": {
 		name: "Gemini 2.0 Flash",
 		description: "Fast and efficient multimodal model",
 		inputTokenLimit: 1048576,
 		outputTokenLimit: 8192,
 	},
-	"models/gemini-flash-latest": {
+	"gemini-flash-latest": {
 		name: "Gemini Flash Latest",
 		description: "Latest release of Gemini Flash",
 		inputTokenLimit: 1048576,
 		outputTokenLimit: 65536,
 	},
-	"models/gemini-pro-latest": {
+	"gemini-pro-latest": {
 		name: "Gemini Pro Latest",
 		description: "Latest release of Gemini Pro",
 		inputTokenLimit: 1048576,
 		outputTokenLimit: 65536,
 	},
-	"models/gemini-2.0-flash-exp": {
+	"gemini-2.0-flash-exp": {
 		name: "Gemini 2.0 Flash Experimental",
 		description: "Experimental version with latest features",
 		inputTokenLimit: 1048576,
@@ -64,10 +64,10 @@ export async function getModels() {
 		console.error("Error fetching models:", error);
 		return {
 			models: [
-				"models/gemini-2.5-flash",
-				"models/gemini-2.5-pro",
-				"models/gemini-2.0-flash",
-				"models/gemini-flash-latest",
+				"gemini-2.5-flash",
+				"gemini-2.5-pro",
+				"gemini-2.0-flash",
+				"gemini-flash-latest",
 			],
 		}; // Fallback
 	}
@@ -87,7 +87,7 @@ export async function checkHealth() {
 // Function to get chat response
 export async function getChatResponse(
 	prompt: string,
-	model: AIModel = "models/gemini-2.5-flash"
+	model: AIModel = "gemini-2.5-flash"
 ) {
 	try {
 		const response = await fetch(

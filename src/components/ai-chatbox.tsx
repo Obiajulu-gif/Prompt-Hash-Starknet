@@ -26,9 +26,8 @@ export function AiChatButton() {
 		},
 	]);
 	const [isLoading, setIsLoading] = useState(false);
-	const [selectedModel, setSelectedModel] = useState<AIModel>(
-		"models/gemini-2.5-flash"
-	);
+	const [selectedModel, setSelectedModel] =
+		useState<AIModel>("gemini-2.5-flash");
 	const [isImproving, setIsImproving] = useState(false);
 
 	const chatRef = useRef<HTMLDivElement>(null);
@@ -69,15 +68,19 @@ export function AiChatButton() {
 			let responseText = "Sorry, I couldn't generate a response.";
 
 			if (response) {
-				// Check if response has a "Response" property
-				if (typeof response === "object" && response.Response) {
+				// Check if response has a "response" property (lowercase)
+				if (typeof response === "object" && response.response) {
+					responseText = response.response;
+				}
+				// Check if response has a "Response" property (uppercase) for backward compatibility
+				else if (typeof response === "object" && response.Response) {
 					responseText = response.Response;
 				}
 				// If it's a string, use it directly
 				else if (typeof response === "string") {
 					responseText = response;
 				}
-				// If it's an object but doesn't have Response, stringify it
+				// If it's an object but doesn't have response, stringify it
 				else if (typeof response === "object") {
 					responseText = JSON.stringify(response);
 				}
@@ -215,20 +218,12 @@ export function AiChatButton() {
 								onChange={(e) => setSelectedModel(e.target.value as AIModel)}
 								className="text-sm border rounded-md py-1 px-2 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 							>
-								<option value="models/gemini-2.5-flash">
-									Gemini 2.5 Flash
-								</option>
-								<option value="models/gemini-2.5-pro">Gemini 2.5 Pro</option>
-								<option value="models/gemini-2.0-flash">
-									Gemini 2.0 Flash
-								</option>
-								<option value="models/gemini-flash-latest">
-									Gemini Flash Latest
-								</option>
-								<option value="models/gemini-pro-latest">
-									Gemini Pro Latest
-								</option>
-								<option value="models/gemini-2.0-flash-exp">
+								<option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+								<option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
+								<option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
+								<option value="gemini-flash-latest">Gemini Flash Latest</option>
+								<option value="gemini-pro-latest">Gemini Pro Latest</option>
+								<option value="gemini-2.0-flash-exp">
 									Gemini 2.0 Flash Exp
 								</option>
 							</select>

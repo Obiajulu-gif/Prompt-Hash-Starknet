@@ -24,9 +24,8 @@ export function ChatInterface() {
 
 	const [customerName, setCustomerName] = useState("GS");
 	const [isTyping, setIsTyping] = useState(false);
-	const [selectedModel, setSelectedModel] = useState<AIModel>(
-		"models/gemini-2.5-flash"
-	);
+	const [selectedModel, setSelectedModel] =
+		useState<AIModel>("gemini-2.5-flash");
 	const [inputValue, setInputValue] = useState("");
 
 	// Handle sending a message
@@ -59,15 +58,19 @@ export function ChatInterface() {
 			let responseText = "Sorry, I couldn't generate a response.";
 
 			if (response) {
-				// Check if response has a "Response" property
-				if (typeof response === "object" && response.Response) {
+				// Check if response has a "response" property (lowercase)
+				if (typeof response === "object" && response.response) {
+					responseText = response.response;
+				}
+				// Check if response has a "Response" property (uppercase) for backward compatibility
+				else if (typeof response === "object" && response.Response) {
 					responseText = response.Response;
 				}
 				// If it's a string, use it directly
 				else if (typeof response === "string") {
 					responseText = response;
 				}
-				// If it's an object but doesn't have Response, stringify it
+				// If it's an object but doesn't have response, stringify it
 				else if (typeof response === "object") {
 					responseText = JSON.stringify(response);
 				}

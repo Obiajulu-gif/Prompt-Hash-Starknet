@@ -138,16 +138,12 @@ export function ChatArea({
 						onChange={(e) => setSelectedModel(e.target.value as AIModel)}
 						className="text-xs sm:text-sm border rounded-md py-1 px-1 sm:px-2 bg-white border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 					>
-						<option value="models/gemini-2.5-flash">Gemini 2.5 Flash</option>
-						<option value="models/gemini-2.5-pro">Gemini 2.5 Pro</option>
-						<option value="models/gemini-2.0-flash">Gemini 2.0 Flash</option>
-						<option value="models/gemini-flash-latest">
-							Gemini Flash Latest
-						</option>
-						<option value="models/gemini-pro-latest">Gemini Pro Latest</option>
-						<option value="models/gemini-2.0-flash-exp">
-							Gemini 2.0 Flash Exp
-						</option>
+						<option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+						<option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
+						<option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
+						<option value="gemini-flash-latest">Gemini Flash Latest</option>
+						<option value="gemini-pro-latest">Gemini Pro Latest</option>
+						<option value="gemini-2.0-flash-exp">Gemini 2.0 Flash Exp</option>
 					</select>
 					<Button
 						variant="outline"
