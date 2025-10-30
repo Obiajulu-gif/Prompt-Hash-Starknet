@@ -41,25 +41,25 @@ interface ChatAreaProps {
 }
 
 // Format message content based on model response
-  const formatMessageContent = (content: string): string => {
-    try {
-      // Check if the content is JSON
-      if (content.trim().startsWith("{") && content.trim().endsWith("}")) {
-        const parsedContent = JSON.parse(content);
+const formatMessageContent = (content: string): string => {
+	try {
+		// Check if the content is JSON
+		if (content.trim().startsWith("{") && content.trim().endsWith("}")) {
+			const parsedContent = JSON.parse(content);
 
-        // Handle llama3.2-vision model response format
-        if (parsedContent.response) {
-          return parsedContent.response;
-        }
-      }
+			// Handle Gemini model response format
+			if (parsedContent.response) {
+				return parsedContent.response;
+			}
+		}
 
-      return content;
-    } catch (error) {
-      // If parsing fails, return the original content
-      console.log("Error parsing message content:", error);
-      return content;
-    }
-  };
+		return content;
+	} catch (error) {
+		// If parsing fails, return the original content
+		console.log("Error parsing message content:", error);
+		return content;
+	}
+};
 export function ChatArea({
 	conversation,
 	isTyping,
@@ -121,9 +121,7 @@ export function ChatArea({
 		} finally {
 			setIsImproving(false);
 		}
-  };
-  
-  
+	};
 
 	return (
 		<div className="flex-1 flex flex-col h-full bg-gradient-to-r from-purple-400 to-blue-500 backdrop-blur-sm shadow-lg max-w-full">
@@ -140,8 +138,16 @@ export function ChatArea({
 						onChange={(e) => setSelectedModel(e.target.value as AIModel)}
 						className="text-xs sm:text-sm border rounded-md py-1 px-1 sm:px-2 bg-white border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 					>
-						<option value="deepseek-r1:70b">deepseek-r1:70b</option>
-						<option value="llama3.2-vision">llama3.2-vision</option>
+						<option value="models/gemini-2.5-flash">Gemini 2.5 Flash</option>
+						<option value="models/gemini-2.5-pro">Gemini 2.5 Pro</option>
+						<option value="models/gemini-2.0-flash">Gemini 2.0 Flash</option>
+						<option value="models/gemini-flash-latest">
+							Gemini Flash Latest
+						</option>
+						<option value="models/gemini-pro-latest">Gemini Pro Latest</option>
+						<option value="models/gemini-2.0-flash-exp">
+							Gemini 2.0 Flash Exp
+						</option>
 					</select>
 					<Button
 						variant="outline"
