@@ -96,33 +96,33 @@ export function ConnectWallet({ className }: {
                                     }}
                                     className="w-full text-left px-4 py-2 text-sm hover:bg-[#ffffff]/10 rounded-lg flex items-center gap-2"
                                 >
-                                    {/* {connector.id === 'braavos' ? (
-                                        <>
+                                    {connector.id === 'braavos' ? (
+                                        <p className='text-white'>
                                             <img
                                                 src={connector.icon.toString()}
                                                 alt="Braavos Wallet Logo"
                                                 className="w-5 h-5 inline-block mr-2"
                                             />
                                             Braavos Wallet
-                                        </>
+                                        </p>
                                     ) : (
-                                        <>
+                                        <p className='text-white'>
                                             <img
                                                 src={connector.icon.toString()}
                                                 alt="Ready Wallet Logo"
                                                 className="w-5 h-5 inline-block mr-2"
                                             />
                                             Ready Wallet
-                                        </>
-                                    )} */}
-                                    <p className='text-white'>
+                                        </p>
+                                    )}
+                                    {/* <p className='text-white'>
                                         <img 
                                             src={connector.icon.toString()}
                                             alt={`${connector.name} Wallet Logo`}
                                             className='w-5 h-5 inline-block mr-2'
                                         />
                                         {connector.name}
-                                    </p>
+                                    </p> */}
                                 </button>
                             ))
                     )}
