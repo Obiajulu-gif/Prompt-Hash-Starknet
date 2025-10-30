@@ -53,7 +53,7 @@ export function ConnectWallet({ className }: {
                     <Wallet className="md:mr-2 h-4 w-4" />
                 )}
                 <span className="hidden md:inline">
-                    {isLoading ? "Connecting..." : "Connect Wallet 2"}
+                    {isLoading ? "Connecting..." : status === 'connected' ? shortAddress : "Connect Wallet"}
                 </span>
             </Button>
 
