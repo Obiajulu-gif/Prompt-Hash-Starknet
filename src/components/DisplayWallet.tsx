@@ -1,4 +1,5 @@
 "use client";
+
 import { useRef } from "react";
 import {
 	DropdownMenu,
@@ -19,6 +20,8 @@ import {
 	X,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useConnect, useDisconnect } from "@starknet-react/core";
+import { ConnectWallet } from "./connect-wallet";
 
 declare global {
 	interface Window {
@@ -33,107 +36,110 @@ const DisplayWallet = () => {
 	const [error, setError] = useState<string | null>(null);
 	const isConnectingRef = useRef(false);
 
-	useEffect(() => {
-		const checkConnection = async () => {
-			if (window.ethereum) {
-				const accounts = await window.ethereum.request({
-					method: "eth_accounts",
-				});
-				if (accounts.length > 0) {
-					setAccount(accounts[0]);
-					setIsConnected(true);
-				}
-			}
-		};
+	const { connect: starknetConnect, connectors: starknetConnectors } = useConnect();
+	const { disconnect } = useDisconnect();
 
-		checkConnection();
+	// useEffect(() => {
+	// 	const checkConnection = async () => {
+	// 		if (window.ethereum) {
+	// 			const accounts = await window.ethereum.request({
+	// 				method: "eth_accounts",
+	// 			});
+	// 			if (accounts.length > 0) {
+	// 				setAccount(accounts[0]);
+	// 				setIsConnected(true);
+	// 			}
+	// 		}
+	// 	};
 
-		const handleAccountsChanged = (accounts: string[]) => {
-			if (accounts.length > 0) {
-				setAccount(accounts[0]);
-				setIsConnected(true);
-			} else {
-				setAccount(null);
-				setIsConnected(false);
-			}
-		};
+	// 	checkConnection();
 
-		if (window.ethereum) {
-			window.ethereum.on("accountsChanged", handleAccountsChanged);
-		}
+	// 	const handleAccountsChanged = (accounts: string[]) => {
+	// 		if (accounts.length > 0) {
+	// 			setAccount(accounts[0]);
+	// 			setIsConnected(true);
+	// 		} else {
+	// 			setAccount(null);
+	// 			setIsConnected(false);
+	// 		}
+	// 	};
 
-		return () => {
-			if (window.ethereum) {
-				window.ethereum.removeListener(
-					"accountsChanged",
-					handleAccountsChanged
-				);
-			}
-		};
-	}, []);
+	// 	if (window.ethereum) {
+	// 		window.ethereum.on("accountsChanged", handleAccountsChanged);
+	// 	}
 
-	const connect = async () => {
-		console.log("connect() called");
+	// 	return () => {
+	// 		if (window.ethereum) {
+	// 			window.ethereum.removeListener(
+	// 				"accountsChanged",
+	// 				handleAccountsChanged
+	// 			);
+	// 		}
+	// 	};
+	// }, []);
 
-		if (!window.ethereum) {
-			console.warn("MetaMask not detected");
-			setError("MetaMask not installed");
-			return;
-		}
+	// const connect = async () => {
+	// 	console.log("connect() called");
 
-		if (isConnectingRef.current || isLoading) {
-			console.warn("Connection already in progress");
-			return;
-		}
+	// 	if (!window.ethereum) {
+	// 		console.warn("MetaMask not detected");
+	// 		setError("MetaMask not installed");
+	// 		return;
+	// 	}
 
-		isConnectingRef.current = true;
-		setIsLoading(true);
-		setError(null);
+	// 	if (isConnectingRef.current || isLoading) {
+	// 		console.warn("Connection already in progress");
+	// 		return;
+	// 	}
 
-		try {
-			console.log("Requesting accounts...");
-			const accounts = await window.ethereum.request({
-				method: "eth_requestAccounts",
-			});
-			console.log("Accounts received:", accounts);
+	// 	isConnectingRef.current = true;
+	// 	setIsLoading(true);
+	// 	setError(null);
 
-			// Add network or switch
-			try {
-				await window.ethereum.request({
-					method: "wallet_addEthereumChain",
-					params: [
-						{
-							chainId: "0x534e5f474f45524c49", // Starknet Goerli testnet
-							chainName: "Starknet Testnet",
-							nativeCurrency: {
-								name: "STRK",
-								symbol: "STRK",
-								decimals: 18,
-							},
-							rpcUrls: ["https://starknet-testnet.public.blastapi.io"],
-							blockExplorerUrls: ["https://testnet.starkscan.co"],
-						},
-					],
-				});
-				console.log("Network added or already exists");
-			} catch (networkError) {
-				console.warn("Error adding network", networkError);
-			}
+	// 	try {
+	// 		console.log("Requesting accounts...");
+	// 		const accounts = await window.ethereum.request({
+	// 			method: "eth_requestAccounts",
+	// 		});
+	// 		console.log("Accounts received:", accounts);
 
-			setAccount(accounts[0]);
-			setIsConnected(true);
-			await registerUser(accounts[0]);
-		} catch (err: any) {
-			console.error("Connection failed:", err);
-			setError(err.message || "Failed to connect wallet");
-			setIsConnected(false);
-			setAccount(null);
-		} finally {
-			setIsLoading(false);
-			isConnectingRef.current = false;
-			console.log("connect() finished");
-		}
-	};
+	// 		// Add network or switch
+	// 		try {
+	// 			await window.ethereum.request({
+	// 				method: "wallet_addEthereumChain",
+	// 				params: [
+	// 					{
+	// 						chainId: "0x534e5f474f45524c49", // Starknet Goerli testnet
+	// 						chainName: "Starknet Testnet",
+	// 						nativeCurrency: {
+	// 							name: "STRK",
+	// 							symbol: "STRK",
+	// 							decimals: 18,
+	// 						},
+	// 						rpcUrls: ["https://starknet-testnet.public.blastapi.io"],
+	// 						blockExplorerUrls: ["https://testnet.starkscan.co"],
+	// 					},
+	// 				],
+	// 			});
+	// 			console.log("Network added or already exists");
+	// 		} catch (networkError) {
+	// 			console.warn("Error adding network", networkError);
+	// 		}
+
+	// 		setAccount(accounts[0]);
+	// 		setIsConnected(true);
+	// 		await registerUser(accounts[0]);
+	// 	} catch (err: any) {
+	// 		console.error("Connection failed:", err);
+	// 		setError(err.message || "Failed to connect wallet");
+	// 		setIsConnected(false);
+	// 		setAccount(null);
+	// 	} finally {
+	// 		setIsLoading(false);
+	// 		isConnectingRef.current = false;
+	// 		console.log("connect() finished");
+	// 	}
+	// };
 
 	const registerUser = async (address: string) => {
 		try {
@@ -154,10 +160,10 @@ const DisplayWallet = () => {
 		}
 	};
 
-	const disconnect = () => {
-		setAccount(null);
-		setIsConnected(false);
-	};
+	// const disconnect = () => {
+	// 	setAccount(null);
+	// 	setIsConnected(false);
+	// };
 
 	const formatAddress = (address: string) => {
 		return `${address.substring(0, 6)}...${address.substring(
@@ -213,7 +219,9 @@ const DisplayWallet = () => {
 						</DropdownMenuItem>
 						<DropdownMenuSeparator className="bg-gray-800" />
 						<DropdownMenuItem
-							onClick={disconnect}
+							onClick={() => {
+								disconnect()
+							}}
 							className="flex cursor-pointer items-center text-red-400 hover:bg-gray-800 hover:text-red-300"
 						>
 							<LogOut className="mr-2 h-4 w-4" />
@@ -222,21 +230,22 @@ const DisplayWallet = () => {
 					</DropdownMenuContent>
 				</DropdownMenu>
 			) : (
-				<Button
-					variant="outline"
-					className="ml-auto font-bold border-purple-900 text-purple-800 hover:text-purple-300 hover:border-purple-800"
-					onClick={connect}
-					disabled={isLoading}
-				>
-					{isLoading ? (
-						<Loader2 className="mr-2 h-4 w-4 animate-spin" />
-					) : (
-						<Wallet className="md:mr-2 h-4 w-4" />
-					)}
-					<span className="hidden md:inline">
-						{isLoading ? "Connecting..." : "Connect Wallet 2"}
-					</span>
-				</Button>
+				// <Button
+				// 	variant="outline"
+				// 	className="ml-auto font-bold border-purple-900 text-purple-800 hover:text-purple-300 hover:border-purple-800"
+				// 	onClick={connect}
+				// 	disabled={isLoading}
+				// >
+				// 	{isLoading ? (
+				// 		<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+				// 	) : (
+				// 		<Wallet className="md:mr-2 h-4 w-4" />
+				// 	)}
+				// 	<span className="hidden md:inline">
+				// 		{isLoading ? "Connecting..." : "Connect Wallet 2"}
+				// 	</span>
+				// </Button>
+				<ConnectWallet />
 			)}
 			{error && (
 				<div className="container py-2">

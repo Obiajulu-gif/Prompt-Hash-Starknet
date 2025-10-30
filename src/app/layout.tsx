@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { StarknetProvider } from "@/components/starknet-provider";
 
 export const metadata: Metadata = {
   title: "Prompt Hash",
@@ -30,7 +31,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
+        <StarknetProvider>
+          {children}
+        </StarknetProvider>
       </body>
     </html>
   );
