@@ -2,10 +2,11 @@
 
 import { ReactNode } from "react"
 import {
+    alchemyProvider,
     argent,
     braavos,
+    jsonRpcProvider,
     publicProvider,
-    ready,
     StarknetConfig,
     useInjectedConnectors,
     voyager
@@ -17,17 +18,24 @@ export function StarknetProvider({ children }: {
 }) {
 
     const { connectors } = useInjectedConnectors({
-        recommended: [ready(), braavos()],
+        recommended: [argent(), braavos()],
         includeRecommended: 'always',
         order: "alphabetical",
     })
 
     return (
         <StarknetConfig
-            chains={[mainnet, sepolia]}
-            provider={publicProvider()}
+            chains={[sepolia]}
+            provider={
+                jsonRpcProvider({
+                    rpc: (chain) => ({
+                        nodeUrl: 'https://starknet-sepolia.public.blastapi.io/rpc/v0_8'
+                    })
+                })
+            }
             connectors={connectors}
             explorer={voyager}
+            autoConnect
         >
             {children}
         </StarknetConfig>
