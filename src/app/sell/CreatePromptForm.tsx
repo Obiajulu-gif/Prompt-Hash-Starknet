@@ -62,7 +62,7 @@ export function CreatePromptForm() {
 		const isValid = !!address && formData.imageUrl.length > 0 && formData.description.length > 0;
 		if (!isValid) return;
 
-		return contract?.populate("create_prompt", [formData.imageUrl, formData.description]);
+		return contract?.populate("create_prompt", [formData.imageUrl, formData.description, formData.title, formData.category, Number(formData.price)]);
 
 	}, [address, formData])
 

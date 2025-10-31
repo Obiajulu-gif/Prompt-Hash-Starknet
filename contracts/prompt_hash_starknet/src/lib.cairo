@@ -8,11 +8,14 @@ pub struct Prompt {
     pub price: u256,
     pub for_sale: bool,
     pub sold: bool,
+    pub owner: ContractAddress,
+    pub category: ByteArray,
+    pub title: ByteArray,
 }
 
 #[starknet::interface]
 pub trait IPromptHash<TContractState> {
-    fn create_prompt(ref self: TContractState, image_url: ByteArray, description: ByteArray) -> u256;
+    fn create_prompt(ref self: TContractState, image_url: ByteArray, description: ByteArray, title: ByteArray, category: ByteArray, price: u256) -> u256;
     fn list_prompt_for_sale(ref self: TContractState, token_id: u256, price: u256);
     fn buy_prompt(ref self: TContractState, token_id: u256);
     fn get_all_prompts(self: @TContractState) -> Array<Prompt>;
@@ -115,6 +118,7 @@ pub mod PromptHash {
         pub new_fee_wallet: ContractAddress
     }
 
+    #[abi(embed_v0)]
     impl ERC721MixinImpl = ERC721Component::ERC721MixinImpl<ContractState>;
     impl ERC721InternalImpl = ERC721Component::InternalImpl<ContractState>;
 
@@ -124,13 +128,13 @@ pub mod PromptHash {
     impl UpgradeableInternalImpl = UpgradeableComponent::InternalImpl<ContractState>;
 
     #[constructor]
-    fn constructor(ref self: ContractState, fee_wallet: ContractAddress, strk_address: ContractAddress) {
+    fn constructor(ref self: ContractState, fee_wallet: ContractAddress, strk_address: ContractAddress, owner: ContractAddress) {
         let name: ByteArray = "PromptHash";
         let symbol: ByteArray = "PHASH";
         let base_uri: ByteArray = "https://api.example.com/v1/"; // Will be changed
 
         self.erc721.initializer(name, symbol, base_uri);
-        let owner = get_caller_address();
+        // let owner = get_caller_address();
         self.ownable.initializer(owner);
         self.fee_wallet.write(fee_wallet);
         self.token_id_counter.write(1);
@@ -140,11 +144,10 @@ pub mod PromptHash {
 
     #[abi(embed_v0)]
     pub impl PromptHashImpl of IPromptHash<ContractState> {
-        fn create_prompt(ref self: ContractState, image_url: ByteArray, description: ByteArray) -> u256 {
+        fn create_prompt(ref self: ContractState, image_url: ByteArray, description: ByteArray, title: ByteArray, category: ByteArray, price: u256) -> u256 {
             let caller = get_caller_address();
             let token_id = self.token_id_counter.read();
             self.token_id_counter.write(token_id + 1);
-            // self.token_ids.push(token_id);
 
             self.erc721.mint(caller, token_id);
 
@@ -152,12 +155,16 @@ pub mod PromptHash {
                 id: token_id,
                 image_url: image_url.clone(),
                 description: description.clone(),
-                price: 0,
-                for_sale: false,
+                price,
+                for_sale: true,
                 sold: false,
+                owner: caller,
+                category: category.clone(),
+                title: title.clone()
             };
 
             self.prompts.entry(token_id).write(prompt);
+
             self.emit(
                 PromptCreated {
                     token_id,
@@ -217,6 +224,9 @@ pub mod PromptHash {
             token_dispatcher.transfer_from(caller, seller, seller_amount);
             token_dispatcher.transfer_from(caller, fee_wallet, fee);
 
+            prompt.owner = caller;
+            prompt.sold = true;
+
             self.emit(
                 PromptSold {
                     token_id,
@@ -224,7 +234,9 @@ pub mod PromptHash {
                     buyer: caller,
                     price: selling_price,
                 }
-            )
+            );
+
+            self.prompts.entry(token_id).write(prompt);
 
         }
 

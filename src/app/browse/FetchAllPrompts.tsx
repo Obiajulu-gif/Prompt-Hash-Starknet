@@ -17,6 +17,7 @@ import Image from "next/image";
 import contractABI from "../../../contracts/PromptHashAbi.json";
 import { useAccount, useContract, useReadContract } from "@starknet-react/core";
 import { PROMPTHASH_STARKNET_ABI, PROMPTHASH_STARKNET_ADDRESS } from "@/lib/constants";
+import { contractAddressToHex } from "@/lib/utils";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -60,130 +61,35 @@ const FetchAllPrompts = ({
     watch: true
   })
 
-  // useEffect(() => {
-  //   fetchPrompts();
-  // }, [selectedCategory, priceRange, searchQuery]); // Add dependencies to useEffect
-
-  // const fetchPrompts = async () => {
-  //   try {
-  //     setIsLoading(true);
-  //     setError(null);
-
-  //     // if (!window.ethereum) {
-  //     //   throw new Error("Please install MetaMask");
-  //     // }
-
-  //     // const provider = new ethers.BrowserProvider(window.ethereum);
-  //     // await provider.send("eth_requestAccounts", []);
-
-  //     // const contractAddress = process.env.NEXT_PUBLIC_DEPLOYMENT_ADDRESS;
-  //     // if (!contractAddress) {
-  //     //   throw new Error("Contract address not found");
-  //     // }
-
-  //     // const contract = new ethers.Contract(
-  //     //   contractAddress,
-  //     //   contractABI,
-  //     //   provider
-  //     // );
-
-  //     // Get all prompts
-  //     // const rawPrompts = await contract.getAllPrompts();
-  //     // Format the prompts from the tuple array
-  //     const formattedPrompts = rawPrompts.map((tuple) => ({
-  //       id: tuple[0].toString(), // promptId
-  //       title: tuple[1], // title
-  //       description: tuple[2], // description
-  //       category: tuple[3], // category
-  //       imageUrl: tuple[4], // imageUrl
-  //       price: ethers.formatEther(tuple[5]), // price (convert from wei)
-  //       likes: tuple[6].toString(), // likes
-  //       owner: tuple[7], // owner address
-  //       exists: tuple[8], // exists
-  //       onSale: tuple[9], // onSale
-  //     }));
-
-  //     console.log("Formatted prompts before filtering:", formattedPrompts);
-
-  //     // Split the filtering into steps for debugging
-  //     let filteredPrompts = formattedPrompts;
-
-  //     // 1. Filter by exists and onSale
-  //     filteredPrompts = filteredPrompts.filter((prompt) => {
-  //       console.log(
-  //         `Prompt ${prompt.id} - exists: ${prompt.exists}, onSale: ${prompt.onSale}`
-  //       );
-  //       return prompt.exists && prompt.onSale;
-  //     });
-  //     console.log("After exists/onSale filter:", filteredPrompts);
-
-  //     // 2. Filter by category if selected
-  //     if (selectedCategory) {
-  //       filteredPrompts = filteredPrompts.filter((prompt) => {
-  //         console.log(
-  //           `Prompt ${prompt.id} - category: ${prompt.category}, selected: ${selectedCategory}`
-  //         );
-  //         return prompt.category === selectedCategory;
-  //       });
-  //       console.log("After category filter:", filteredPrompts);
-  //     }
-
-  //     // 3. Filter by search query if present
-  //     if (searchQuery) {
-  //       filteredPrompts = filteredPrompts.filter((prompt) => {
-  //         const matchesTitle = prompt.title
-  //           .toLowerCase()
-  //           .includes(searchQuery.toLowerCase());
-  //         const matchesDesc = prompt.description
-  //           .toLowerCase()
-  //           .includes(searchQuery.toLowerCase());
-  //         console.log(
-  //           `Prompt ${prompt.id} - matches search: ${
-  //             matchesTitle || matchesDesc
-  //           }`
-  //         );
-  //         return matchesTitle || matchesDesc;
-  //       });
-  //       console.log("After search filter:", filteredPrompts);
-  //     }
-
-  //     // 4. Filter by price range
-  //     filteredPrompts = filteredPrompts.filter((prompt) => {
-  //       const price = Number(prompt.price); // Convert to HBAR
-  //       console.log(
-  //         `Prompt ${prompt.id} - price: ${price}, range: ${priceRange[0]} to ${priceRange[1]}`
-  //       );
-  //       return price >= priceRange[0] && price <= priceRange[1];
-  //     });
-  //     console.log("After price filter:", filteredPrompts);
-
-  //     console.log("Final filtered prompts:", filteredPrompts);
-  //     setPrompts(filteredPrompts);
-  //   } catch (error) {
-  //     console.error("Error fetching prompts:", error);
-  //     setError(error instanceof Error ? error.message : "An error occurred");
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
   const formattedPrompts: Prompt[] = rawPrompts && address ?
     rawPrompts.map((prompt, index) => {
       return {
         id: prompt.id.toString(),
-        title: prompt.description.split(' ')[0],
+        title: prompt.title,
         description: prompt.description,
-        category: "Programming",
+        category: prompt.category,
         imageUrl: prompt.image_url,
         price: prompt.price.toString(),
         likes: 2,
-        owner: address!,
-        exists: !prompt.sold,
+        owner: contractAddressToHex(prompt.owner),
+        exists: !!prompt,
         onSale: prompt.for_sale
       }
     }) : []
 
   console.log(formattedPrompts)
+
+  const promptHashCall = useMemo(() => {
+
+  }, []);
+
+  const erc20Call = useMemo(() => {
+
+  }, []);
+
+  const erc721Call = useMemo(() => {
+    
+  }, []);
 
   useEffect(() => {
     // Reset to first page when filters change
