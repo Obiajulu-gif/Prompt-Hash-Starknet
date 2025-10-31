@@ -5,7 +5,6 @@ import {
     argent,
     braavos,
     publicProvider,
-    ready,
     StarknetConfig,
     useInjectedConnectors,
     voyager
@@ -17,14 +16,14 @@ export function StarknetProvider({ children }: {
 }) {
 
     const { connectors } = useInjectedConnectors({
-        recommended: [ready(), braavos()],
+        recommended: [argent(), braavos()],
         includeRecommended: 'always',
         order: "alphabetical",
     })
 
     return (
         <StarknetConfig
-            chains={[mainnet, sepolia]}
+            chains={[sepolia]}
             provider={publicProvider()}
             connectors={connectors}
             explorer={voyager}

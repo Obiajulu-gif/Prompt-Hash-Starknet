@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, FormEvent, useMemo } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,8 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { ethers } from "ethers";
+import { useAccount, useContract, useSendTransaction } from "@starknet-react/core";
+import { PROMPTHASH_STARKNET_ABI, PROMPTHASH_STARKNET_ADDRESS } from "@/lib/constants";
 
 const contractABI = [
 	{
@@ -50,6 +52,24 @@ export function CreatePromptForm() {
 	const [error, setError] = useState<string | null>(null);
 	const [success, setSuccess] = useState<string | null>(null);
 
+	const { address } = useAccount();
+	const { contract } = useContract({
+		abi: PROMPTHASH_STARKNET_ABI,
+		address: PROMPTHASH_STARKNET_ADDRESS
+	})
+
+	const calls = useMemo(() => {
+		const isValid = !!address && formData.imageUrl.length > 0 && formData.description.length > 0;
+		if (!isValid) return;
+
+		return contract?.populate("create_prompt", [formData.imageUrl, formData.description]);
+
+	}, [address, formData])
+
+	const { sendAsync, status } = useSendTransaction({
+		calls: calls? [calls] : undefined
+	})
+
 	const handleChange = (
 		e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
@@ -88,8 +108,8 @@ export function CreatePromptForm() {
 		return Object.keys(newErrors).length === 0;
 	};
 
-	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
+	const handleSubmit = async () => {
+		// e.preventDefault();
 		setError(null);
 		setSuccess(null);
 
@@ -98,51 +118,53 @@ export function CreatePromptForm() {
 		setIsSubmitting(true);
 
 		try {
-			if (!window.ethereum) {
-				throw new Error("Please install MetaMask");
-			}
+			// if (!window.ethereum) {
+			// 	throw new Error("Please install MetaMask");
+			// }
 
-			await window.ethereum.request({ method: "eth_requestAccounts" });
+			// await window.ethereum.request({ method: "eth_requestAccounts" });
 
-			const provider = new ethers.BrowserProvider(window.ethereum);
-			const signer = await provider.getSigner();
-			const contractAddress = process.env.NEXT_PUBLIC_DEPLOYMENT_ADDRESS;
+			// const provider = new ethers.BrowserProvider(window.ethereum);
+			// const signer = await provider.getSigner();
+			// const contractAddress = process.env.NEXT_PUBLIC_DEPLOYMENT_ADDRESS;
 
-			if (!contractAddress) {
-				throw new Error("Contract address not found");
-			}
+			// if (!contractAddress) {
+			// 	throw new Error("Contract address not found");
+			// }
 
-			const contract = new ethers.Contract(
-				contractAddress,
-				contractABI,
-				signer
-			);
+			// const contract = new ethers.Contract(
+			// 	contractAddress,
+			// 	contractABI,
+			// 	signer
+			// );
 
-			// Convert price to wei
-			const priceInHbar = ethers.parseEther(formData.price);
-			// Creation fee is 2 HBAR
-			const creationFee = ethers.parseEther("2.0");
+			// // Convert price to wei
+			// const priceInHbar = ethers.parseEther(formData.price);
+			// // Creation fee is 2 HBAR
+			// const creationFee = ethers.parseEther("2.0");
 
 			console.log("Creating prompt with:");
 			console.log("- Title:", formData.title);
-			console.log("- Price:", formData.price, "HBAR");
+			console.log("- Price:", formData.price, "STRK");
 			console.log("- Category:", formData.category);
 
-			const tx = await contract.create(
-				priceInHbar,
-				formData.title,
-				formData.description,
-				formData.category,
-				formData.imageUrl,
-				{
-					value: creationFee,
-					gasLimit: 4000000,
-				}
-			);
+			// const tx = await contract.create(
+			// 	priceInHbar,
+			// 	formData.title,
+			// 	formData.description,
+			// 	formData.category,
+			// 	formData.imageUrl,
+			// 	{
+			// 		value: creationFee,
+			// 		gasLimit: 4000000,
+			// 	}
+			// );
 
-			console.log("Transaction sent:", tx.hash);
+			const { transaction_hash: tx } = await sendAsync();
 
-			await tx.wait();
+			// console.log("Transaction sent:", tx.hash);
+
+			// await tx.wait();
 			setSuccess("Prompt created successfully!");
 
 			// Reset form
@@ -162,7 +184,7 @@ export function CreatePromptForm() {
 	};
 
 	return (
-		<form onSubmit={handleSubmit} className="space-y-6">
+		<form className="space-y-6">
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 				<div className="space-y-2">
 					<label className="text-sm font-medium">Image URL</label>
@@ -251,7 +273,7 @@ export function CreatePromptForm() {
 				</div>
 
 				<div className="space-y-2">
-					<label className="text-sm font-medium">Price (HBAR)</label>
+					<label className="text-sm font-medium">Price (STRK)</label>
 					<div className="relative">
 						<DollarSign className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
 						<Input
@@ -277,7 +299,12 @@ export function CreatePromptForm() {
 				</div>
 			</div>
 
-			<Button type="submit" className="w-full" disabled={isSubmitting}>
+			<Button 
+				// type="submit" 
+				className="w-full" 
+				disabled={isSubmitting}
+				onClick={handleSubmit}
+			>
 				{isSubmitting ? (
 					<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 				) : (
