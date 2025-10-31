@@ -184,7 +184,7 @@ export function CreatePromptForm() {
 	};
 
 	return (
-		<form className="space-y-6">
+		<div className="space-y-6">
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 				<div className="space-y-2">
 					<label className="text-sm font-medium">Image URL</label>
@@ -324,6 +324,6 @@ export function CreatePromptForm() {
 					{success}
 				</p>
 			)}
-		</form>
+		</div>
 	);
 }
