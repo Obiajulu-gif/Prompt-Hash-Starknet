@@ -46,6 +46,13 @@ export function Navigation() {
               <span>Sell</span>
             </Link>
             <Link
+              href="/chat"
+              className="transition-colors hover:text-gray-300 text-white flex items-center gap-1"
+            >
+              <MessageCircle className="h-4 w-4" />
+              <span>Chat</span>
+            </Link>
+            <Link
               href="/governance"
               className="transition-colors hover:text-gray-300 text-white flex items-center gap-1"
             >
@@ -58,13 +65,6 @@ export function Navigation() {
             >
               <User className="h-4 w-4" />
               <span>Profile</span>
-            </Link>
-            <Link
-              href="/chat"
-              className="transition-colors hover:text-gray-300 text-white flex items-center gap-1"
-            >
-              <MessageCircle className="h-4 w-4" />
-              <span>Chat</span>
             </Link>
           </nav>
         </div>
@@ -97,6 +97,13 @@ export function Navigation() {
                 <span>Create Prompt</span>
               </Link>
               <Link
+                href="/chat"
+                className="hover:text-gray-300 flex items-center gap-2"
+              >
+                <MessageCircle className="h-4 w-4" />
+                <span>Chat</span>
+              </Link>
+              <Link
                 href="/governance"
                 className="hover:text-gray-300 flex items-center gap-2"
               >
@@ -109,13 +116,6 @@ export function Navigation() {
               >
                 <User className="h-4 w-4" />
                 <span>Profile</span>
-              </Link>
-              <Link
-                href="/chat"
-                className="hover:text-gray-300 flex items-center gap-2"
-              >
-                <MessageCircle className="h-4 w-4" />
-                <span>Chat</span>
               </Link>
             </nav>
           </SheetContent>
