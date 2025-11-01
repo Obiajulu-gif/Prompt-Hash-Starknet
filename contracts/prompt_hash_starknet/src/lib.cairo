@@ -16,6 +16,7 @@ pub struct Prompt {
 #[starknet::interface]
 pub trait IPromptHash<TContractState> {
     fn create_prompt(ref self: TContractState, image_url: ByteArray, description: ByteArray, title: ByteArray, category: ByteArray, price: u256) -> u256;
+    fn get_next_token(self: @TContractState) -> u256;
     fn list_prompt_for_sale(ref self: TContractState, token_id: u256, price: u256);
     fn buy_prompt(ref self: TContractState, token_id: u256);
     fn get_all_prompts(self: @TContractState) -> Array<Prompt>;
@@ -29,7 +30,7 @@ pub mod PromptHash {
     use ERC721Component::InternalTrait as ERC721InternalTrait;
     use starknet::storage::{Map, StoragePathEntry, StoragePointerReadAccess, StoragePointerWriteAccess};
     use super::{Prompt, ContractAddress, IPromptHash, ClassHash};
-    use starknet::{get_caller_address};
+    use starknet::{get_caller_address, get_contract_address};
     use openzeppelin::access::ownable::OwnableComponent;
     use openzeppelin::introspection::src5::SRC5Component;
     use openzeppelin::token::erc721::{ERC721Component, ERC721HooksEmptyImpl};
@@ -42,7 +43,8 @@ pub mod PromptHash {
         pub prompts: Map::<u256, Prompt>,
         // token_ids: Vec<u256>,
         token_id_counter: u256,
-        pub fee_percentage: u256, //initialize as 1
+        // uses 10000 basis points, i.e. 500 means 5%
+        pub fee_percentage: u256, //initialize as 500
         pub fee_wallet: ContractAddress, // initialize in constructor as well
         pub strk_address: ContractAddress,
         #[substorage(v0)]
@@ -138,7 +140,7 @@ pub mod PromptHash {
         self.ownable.initializer(owner);
         self.fee_wallet.write(fee_wallet);
         self.token_id_counter.write(1);
-        self.fee_percentage.write(5);
+        self.fee_percentage.write(500);
         self.strk_address.write(strk_address);
     }
 
@@ -146,10 +148,12 @@ pub mod PromptHash {
     pub impl PromptHashImpl of IPromptHash<ContractState> {
         fn create_prompt(ref self: ContractState, image_url: ByteArray, description: ByteArray, title: ByteArray, category: ByteArray, price: u256) -> u256 {
             let caller = get_caller_address();
+            let this_contract = get_contract_address();
             let token_id = self.token_id_counter.read();
             self.token_id_counter.write(token_id + 1);
 
             self.erc721.mint(caller, token_id);
+            self.erc721.approve(this_contract, token_id);
 
             let prompt = Prompt {
                 id: token_id,
@@ -175,6 +179,10 @@ pub mod PromptHash {
             );
 
             token_id
+        }
+
+        fn get_next_token(self: @ContractState) -> u256 {
+            self.token_id_counter.read()
         }
 
         fn list_prompt_for_sale(ref self: ContractState, token_id: u256, price: u256) {
@@ -213,16 +221,16 @@ pub mod PromptHash {
 
             // Calculate fee
             let fee_percentage = self.fee_percentage.read();
-            let fee = selling_price * fee_percentage;
+            let fee = (selling_price * fee_percentage);
 
-            let seller_amount = selling_price - fee;
+            let seller_amount = (selling_price * 10000) - fee;
 
             let strk_address = self.strk_address.read();
             let token_dispatcher = IERC20Dispatcher { contract_address: strk_address };
 
             self.erc721.transfer_from(seller, caller, token_id);
-            token_dispatcher.transfer_from(caller, seller, seller_amount);
-            token_dispatcher.transfer_from(caller, fee_wallet, fee);
+            token_dispatcher.transfer_from(caller, seller, seller_amount/10000);
+            token_dispatcher.transfer_from(caller, fee_wallet, fee/10000);
 
             prompt.owner = caller;
             prompt.sold = true;

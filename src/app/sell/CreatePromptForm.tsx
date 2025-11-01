@@ -11,8 +11,10 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { ethers } from "ethers";
-import { useAccount, useContract, useSendTransaction } from "@starknet-react/core";
+import { useAccount, useContract, useReadContract, useSendTransaction } from "@starknet-react/core";
 import { PROMPTHASH_STARKNET_ABI, PROMPTHASH_STARKNET_ADDRESS } from "@/lib/constants";
+import { getUint256FromDecimal } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 const contractABI = [
 	{
@@ -58,17 +60,36 @@ export function CreatePromptForm() {
 		address: PROMPTHASH_STARKNET_ADDRESS
 	})
 
-	const calls = useMemo(() => {
+	const { data: nextToken } = useReadContract({
+		abi: PROMPTHASH_STARKNET_ABI,
+		address: PROMPTHASH_STARKNET_ADDRESS,
+		functionName: "get_next_token",
+		args: [],
+		watch: true,
+	})
+	console.log(nextToken)
+
+	const createCalls = useMemo(() => {
 		const isValid = !!address && formData.imageUrl.length > 0 && formData.description.length > 0;
 		if (!isValid) return;
 
 		return contract?.populate("create_prompt", [formData.imageUrl, formData.description, formData.title, formData.category, Number(formData.price)]);
-
 	}, [address, formData])
 
-	const { sendAsync, status } = useSendTransaction({
-		calls: calls? [calls] : undefined
-	})
+	const approveCalls = useMemo(() => {
+		if (!nextToken) return;
+
+		const nextTokenInU256 = getUint256FromDecimal(nextToken.toString());
+		return contract?.populate("approve", [PROMPTHASH_STARKNET_ADDRESS, nextTokenInU256]) // change this to the id he is going to create
+	}, []);
+
+	const { sendAsync: createToken, status } = useSendTransaction(createCalls ? {
+		calls: [createCalls]
+	} : ({} as any));
+
+	const { sendAsync: approve } = useSendTransaction(approveCalls ? {
+		calls: [approveCalls]
+	}: ({} as any));
 
 	const handleChange = (
 		e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -107,6 +128,8 @@ export function CreatePromptForm() {
 		setErrors(newErrors);
 		return Object.keys(newErrors).length === 0;
 	};
+
+	const { push } = useRouter();
 
 	const handleSubmit = async () => {
 		// e.preventDefault();
@@ -160,7 +183,7 @@ export function CreatePromptForm() {
 			// 	}
 			// );
 
-			const { transaction_hash: tx } = await sendAsync();
+			const { transaction_hash: createTxHash } = await createToken();
 
 			// console.log("Transaction sent:", tx.hash);
 
@@ -180,6 +203,7 @@ export function CreatePromptForm() {
 			setError(err instanceof Error ? err.message : "Failed to create prompt");
 		} finally {
 			setIsSubmitting(false);
+			push('/browse')
 		}
 	};
 
