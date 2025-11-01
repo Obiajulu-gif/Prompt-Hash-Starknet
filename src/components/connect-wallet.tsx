@@ -77,7 +77,7 @@ export function ConnectWallet({ className }: {
                                 disconnect();
                                 setDropdownOpen(false);
                             }}
-                            className="block w-44 text-left px-4 py-2 text-sm hover:bg-[#ffffff]/10 rounded-lg"
+                            className="block w-44 text-left px-4 py-2 text-sm hover:bg-[#ffffff]/10 rounded-lg text-white"
                         >
                             Disconnect
                         </button>

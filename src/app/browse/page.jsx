@@ -52,7 +52,7 @@ export default function BrowsePage() {
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium">
-                  Price Range (HBAR)
+                  Price Range (STRK)
                 </label>
                 <Slider
                   value={priceRange}
@@ -62,8 +62,8 @@ export default function BrowsePage() {
                   step={1}
                 />
                 <div className="flex justify-between text-sm text-muted-foreground">
-                  <span>{priceRange[1]} HBAR</span>
-                  <span>{priceRange[1000]} HBAR</span>
+                  <span>{priceRange[1]} STRK</span>
+                  <span>{priceRange[1000]} STRK</span>
                 </div>
               </div>
               <div className="space-y-2">

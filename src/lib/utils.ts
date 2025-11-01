@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx"
+import { uint256 } from "starknet";
 import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
@@ -35,3 +36,15 @@ export function contractAddressToHex(addressValue: any): `0x${string}` {
 
     return paddedHex as `0x${string}`;
 }
+
+export const shortenAddress = (address: string) => `${address.slice(0, 6)}...${address.slice(-4)}`;
+
+export const getUint256FromDecimal = (decimalAmount: string) => {
+    try {
+        const amount = Number(decimalAmount);
+        const multiplied = amount * Math.pow(10, 18);
+        return uint256.bnToUint256(multiplied.toString());
+    } catch (err) {
+        throw new Error('Invalid amount format');
+    }
+};
