@@ -67,7 +67,6 @@ export function CreatePromptForm() {
 		args: [],
 		watch: true,
 	})
-	console.log(nextToken)
 
 	const createCalls = useMemo(() => {
 		const isValid = !!address && formData.imageUrl.length > 0 && formData.description.length > 0;
@@ -198,12 +197,12 @@ export function CreatePromptForm() {
 				category: "",
 				price: "2",
 			});
+			push('/browse')
 		} catch (err) {
 			console.error("Error creating prompt:", err);
 			setError(err instanceof Error ? err.message : "Failed to create prompt");
 		} finally {
 			setIsSubmitting(false);
-			push('/browse')
 		}
 	};
 

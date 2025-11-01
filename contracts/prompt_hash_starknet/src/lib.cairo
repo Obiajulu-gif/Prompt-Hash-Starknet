@@ -36,6 +36,7 @@ pub mod PromptHash {
     use openzeppelin::token::erc721::{ERC721Component, ERC721HooksEmptyImpl};
     use openzeppelin::upgrades::upgradeable::UpgradeableComponent;
     use openzeppelin::token::erc20::interface::{IERC20Dispatcher, IERC20DispatcherTrait};
+    use openzeppelin::token::erc721::interface::{IERC721Dispatcher, IERC721DispatcherTrait};
     use core::num::traits::zero::Zero;
 
     #[storage]
@@ -211,6 +212,7 @@ pub mod PromptHash {
             let caller = get_caller_address();
             let seller = self.erc721.owner_of(token_id);
             let fee_wallet = self.fee_wallet.read();
+            let this_contract = get_contract_address();
             assert(!seller.is_zero(), 'Prompt does not exist');
             assert(!caller.is_zero(), 'Zero address buyer');
             let mut prompt = self.prompts.entry(token_id).read();
@@ -227,8 +229,9 @@ pub mod PromptHash {
 
             let strk_address = self.strk_address.read();
             let token_dispatcher = IERC20Dispatcher { contract_address: strk_address };
+            let nft_dispatcher = IERC721Dispatcher { contract_address: this_contract };
 
-            self.erc721.transfer_from(seller, caller, token_id);
+            nft_dispatcher.transfer_from(seller, caller, token_id);
             token_dispatcher.transfer_from(caller, seller, seller_amount/10000);
             token_dispatcher.transfer_from(caller, fee_wallet, fee/10000);
 

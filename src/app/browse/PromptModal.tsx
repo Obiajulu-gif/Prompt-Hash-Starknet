@@ -36,13 +36,11 @@ export const PromptModal = ({ selectedPrompt, closeModal, handleImageError }: {
         return strk_contract?.populate("approve", [PROMPTHASH_STARKNET_ADDRESS, priceInU256])
       }, [selectedPrompt, address]);
 
-    console.log(Number(selectedPrompt?.id))
 
     const buyCalls = useMemo(() => {
         if (!selectedPrompt || !address) return
 
         const promptIdInU256 = getUint256FromDecimal(selectedPrompt.id);
-        console.log(promptIdInU256)
 
         return contract?.populate("buy_prompt", [Number(selectedPrompt.id)])
     }, [selectedPrompt, address])
@@ -53,7 +51,6 @@ export const PromptModal = ({ selectedPrompt, closeModal, handleImageError }: {
 
     const handleBuyPrompt = async () => {
         const { transaction_hash } = await sendAsync();
-        console.log(transaction_hash);
         closeModal();
         toast.success("Prompt purchase successful")
     }
