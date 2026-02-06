@@ -6,14 +6,12 @@ python-dotenv
 python-multipart
 starlette
 typing-extensions
-uuid
 requests
-asyncio
 request-limiter
 
-# Secret Network SDK dependencies
-secret-sdk>=1.8.1
+# Secret Network SDK (PINNED to avoid prerelease deps)
+secret-sdk==1.8.1
 secret-ai-sdk
 
-# Additional dependencies for deployment
+# Deployment
 gunicorn
